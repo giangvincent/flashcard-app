@@ -266,7 +266,6 @@ def extract_word_pairs(texts: dict[str, str]) -> list[dict]:
                     "level": infer_level(term, source, rank),
                     "front": term,
                     "back": definition[:90],
-                    "hint": "Give the English meaning and article/gender when present.",
                     "source": source,
                     "tags": ["vocabulary"],
                 }
@@ -294,7 +293,6 @@ def frequency_words(texts: dict[str, str], existing: set[str]) -> list[dict]:
                 "level": infer_level(word, source_for[word], len(cards) + 650),
                 "front": word,
                 "back": "High-frequency German word from the project books. Recall or look up its meaning.",
-                "hint": f"Seen {count} times in extracted source text.",
                 "source": source_for[word],
                 "tags": ["frequency"],
             }
@@ -331,7 +329,6 @@ def sentence_cards(words: list[dict]) -> list[dict]:
                     "level": level,
                     "front": front_tpl.format(word=term),
                     "back": back_tpl.format(word=term),
-                    "hint": "Translate the sentence and notice word order.",
                     "source": word["source"],
                     "tags": ["sentence", "generated-from-extracted-vocabulary"],
                 }
@@ -395,7 +392,6 @@ def grammar_cards(texts: dict[str, str]) -> list[dict]:
                 "level": level,
                 "front": topic,
                 "back": summary,
-                "hint": "Recall the rule, then create your own German example.",
                 "source": source,
                 "tags": ["grammar"],
             }

@@ -3,11 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mistralai/mistralai": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0"
+  },
   "scripts": {
-    "start": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "dev": "vite",
+    "dev:translate": "node scripts/dev-with-translate.mjs",
+    "start": "vite",
+    "build": "vite build",
+    "translate-server": "node scripts/translate-server.mjs",
+    "preview": "vite preview"
   }
 }
