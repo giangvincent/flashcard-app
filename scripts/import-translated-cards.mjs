@@ -68,14 +68,6 @@ function updateEsm(path) {
   fs.writeFileSync(path, `export const deckData = ${JSON.stringify(data, null, 2)};\n`)
 }
 
-function updateBrowser(path) {
-  const ctx = { window: {} }
-  vm.runInNewContext(fs.readFileSync(path, 'utf8'), ctx)
-  const data = updateData(ctx.window.DECK_DATA)
-  fs.writeFileSync(path, `window.DECK_DATA = ${JSON.stringify(data, null, 2)};\n`)
-}
-
 updateEsm('src/data/cards.js')
-updateBrowser('../flashcard-data.js')
 
 console.log(`Imported ${importedCards.length} translated cards from "${importData.sourceName}"`)
