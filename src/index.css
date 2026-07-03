@@ -72,12 +72,12 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
   background:
     radial-gradient(circle at 50% 18%, rgb(180 67 77 / 0.2), transparent 28%),
     linear-gradient(180deg, var(--bg) 0%, #020202 100%);
-  color: var(--ink);
   image-rendering: pixelated;
+  min-height: 100vh;
+  color: var(--ink);
 }
 
 .dark-mode body,
@@ -124,8 +124,8 @@ label {
   font-weight: 900;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   text-shadow: 2px 0 #381218, -2px 0 #381218, 0 2px #381218;
+  text-transform: uppercase;
 }
 
 .dark-mode .eyebrow,
@@ -142,7 +142,6 @@ h1 {
   font-size: clamp(2rem, 5vw, 4.25rem);
   line-height: 1;
   letter-spacing: 0;
-  text-transform: uppercase;
   text-shadow:
     3px 0 #6c222b,
     -3px 0 #6c222b,
@@ -150,6 +149,7 @@ h1 {
     0 -3px #6c222b,
     0 9px 0 #381218,
     0 0 18px var(--red-glow);
+  text-transform: uppercase;
 }
 
 .dark-mode h1 {
@@ -163,8 +163,8 @@ h1 {
 
 h2 {
   font-size: 1.2rem;
-  text-transform: uppercase;
   text-shadow: 2px 0 #6c222b, -2px 0 #6c222b, 0 2px #6c222b;
+  text-transform: uppercase;
 }
 
 .dark-mode h2 {
@@ -180,8 +180,6 @@ dialog,
 .source-list article,
 .import-row {
   position: relative;
-  border: 0;
-  background: var(--surface);
   clip-path: polygon(
     12px 0, calc(100% - 12px) 0,
     calc(100% - 12px) 6px, calc(100% - 6px) 6px,
@@ -198,6 +196,8 @@ dialog,
     inset 0 -8px 0 rgb(0 0 0 / 0.58),
     0 8px 0 #050505,
     0 0 24px rgb(255 88 103 / 0.1);
+  border: 0;
+  background: var(--surface);
 }
 
 .dark-mode .today-panel,
@@ -258,8 +258,8 @@ dialog,
 }
 
 .stats-grid article {
-  min-height: 112px;
   padding: 18px;
+  min-height: 112px;
 }
 
 .stats-grid strong {
@@ -304,20 +304,20 @@ label {
 .import-toolbar button,
 .dark-mode-toggle {
   position: relative;
-  border: 0;
-  min-height: 44px;
-  padding: 0 12px;
-  color: #fff8f2;
-  background: var(--red);
-  font-weight: 900;
-  text-transform: uppercase;
-  text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a, 0 -2px #69242a;
   clip-path: polygon(10px 0, calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px), 0 10px, 5px 10px, 5px 5px, 10px 5px);
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.14),
     inset 0 -7px 0 var(--red-2),
     0 6px 0 var(--red-3),
     0 9px 0 #17080b;
+  border: 0;
+  background: var(--red);
+  padding: 0 12px;
+  min-height: 44px;
+  color: #fff8f2;
+  font-weight: 900;
+  text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a, 0 -2px #69242a;
+  text-transform: uppercase;
 }
 
 .segmented button:hover,
@@ -336,15 +336,15 @@ label {
 .editor-actions button:focus-visible,
 .import-toolbar button:focus-visible,
 .dark-mode-toggle:focus-visible {
-  outline: none;
   transform: translateY(-3px);
-  background: var(--control-bg-hover);
+  outline: none;
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.2),
     inset 0 -7px 0 #9a3942,
     0 9px 0 var(--red-3),
     0 12px 0 #17080b,
     0 0 18px rgb(255 93 107 / 0.6);
+  background: var(--control-bg-hover);
 }
 
 .segmented button:active,
@@ -363,37 +363,37 @@ label {
 }
 
 .segmented button.active {
-  background: #d45c68;
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.2),
     inset 0 -7px 0 #9a3942,
     0 8px 0 var(--red-3),
     0 0 18px rgb(255 93 107 / 0.65);
+  background: #d45c68;
 }
 
 select,
 input,
 textarea {
+  box-shadow:
+    inset 0 0 0 3px #cfcfcf,
+    inset 0 -6px 0 #d6c8bf,
+    0 5px 0 #494b4b;
   border: 0;
   background: var(--input-bg);
   width: 100%;
   color: #151014;
   font-weight: 800;
-  box-shadow:
-    inset 0 0 0 3px #cfcfcf,
-    inset 0 -6px 0 #d6c8bf,
-    0 5px 0 #494b4b;
 }
 
 select,
 input {
-  min-height: 42px;
   padding: 0 12px;
+  min-height: 42px;
 }
 
 textarea {
-  min-height: 88px;
   padding: 10px 12px;
+  min-height: 88px;
   resize: vertical;
 }
 
@@ -461,8 +461,8 @@ textarea {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition:
-    transform 560ms steps(6, end),
-    filter 240ms steps(2, end);
+    transform 560ms steps(4, end),
+    filter 240ms steps(1, end);
 }
 
 .flashcard.is-answer .card-inner {
@@ -480,18 +480,18 @@ textarea {
   transform: rotateY(0deg) translateZ(1px);
   opacity: 1;
   backface-visibility: hidden;
-  transition: opacity 160ms steps(2, end);
-  border: 0;
-  background:
-    radial-gradient(circle at 50% 18%, var(--card-front-glow), transparent 28%),
-    var(--card-front-tint);
-  padding: 34px;
   clip-path: polygon(18px 0, calc(100% - 18px) 0, calc(100% - 18px) 6px, calc(100% - 6px) 6px, calc(100% - 6px) 18px, 100% 18px, 100% calc(100% - 18px), calc(100% - 6px) calc(100% - 18px), calc(100% - 6px) calc(100% - 6px), calc(100% - 18px) calc(100% - 6px), calc(100% - 18px) 100%, 18px 100%, 18px calc(100% - 6px), 6px calc(100% - 6px), 6px calc(100% - 18px), 0 calc(100% - 18px), 0 18px, 6px 18px, 6px 6px, 18px 6px);
+  transition: opacity 160ms steps(2, end);
   box-shadow:
     inset 0 8px 0 var(--inset-highlight),
     inset 0 -10px 0 rgb(0 0 0 / 0.58),
     0 12px 0 #000,
     0 0 22px rgb(255 88 103 / 0.16);
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 18%, var(--card-front-glow), transparent 28%),
+    var(--card-front-tint);
+  padding: 34px;
 }
 
 .card-face-front {
@@ -517,8 +517,8 @@ textarea {
 
 .card-hint {
   max-width: 680px;
-  font-size: 0.98rem;
   font-weight: 800;
+  font-size: 0.98rem;
   text-transform: uppercase;
 }
 
@@ -527,8 +527,6 @@ textarea {
   font-weight: 900;
   font-size: clamp(2rem, 4vw, 4.8rem);
   line-height: 1.05;
-  overflow-wrap: anywhere;
-  text-transform: uppercase;
   text-shadow:
     3px 0 #6c222b,
     -3px 0 #6c222b,
@@ -536,6 +534,8 @@ textarea {
     0 -3px #6c222b,
     0 8px 0 #381218,
     0 0 18px var(--red-glow);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .dark-mode .card-main {
@@ -552,10 +552,10 @@ textarea {
   min-height: 58px;
   color: var(--ink);
   font-weight: 900;
-  font-size: clamp(1.45rem, 4vw, 3rem);
+  font-size: clamp(1.45rem, 1vw, 3rem);
   line-height: 1.35;
-  overflow-wrap: anywhere;
   text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a;
+  overflow-wrap: anywhere;
 }
 
 .dark-mode .card-answer {
@@ -563,12 +563,12 @@ textarea {
 }
 
 .card-action {
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
   background: var(--card-action-bg);
   padding: 8px 12px;
   font-weight: 900;
   font-size: 0.82rem;
   text-transform: uppercase;
-  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
 }
 
 .review-actions {
@@ -579,30 +579,30 @@ textarea {
 }
 
 .review-actions [data-rating="hard"] {
-  background: var(--gold);
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.16),
     inset 0 -7px 0 #8f5b1d,
     0 6px 0 #5b3511,
     0 9px 0 #17080b;
+  background: var(--gold);
 }
 
 .review-actions [data-rating="good"] {
-  background: var(--green);
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.16),
     inset 0 -7px 0 #27664c,
     0 6px 0 #173d2d,
     0 9px 0 #07110d;
+  background: var(--green);
 }
 
 .review-actions [data-rating="easy"] {
-  background: var(--blue);
   box-shadow:
     inset 0 5px 0 rgb(255 255 255 / 0.16),
     inset 0 -7px 0 #334e85,
     0 6px 0 #1d2c4b,
     0 9px 0 #080b16;
+  background: var(--blue);
 }
 
 .utility-actions {
@@ -623,8 +623,8 @@ dialog {
 }
 
 dialog::backdrop {
-  background: var(--backdrop);
   backdrop-filter: blur(3px);
+  background: var(--backdrop);
 }
 
 .dialog-head {
@@ -724,14 +724,14 @@ dialog::backdrop {
 }
 
 .import-error {
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
   margin: -4px 0 0;
+  box-shadow: inset 0 0 0 3px var(--error-line);
   border: 0;
   background: var(--error-bg);
   padding: 10px 12px;
   color: var(--error-text);
   font-size: 0.92rem;
-  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
-  box-shadow: inset 0 0 0 3px var(--error-line);
 }
 
 .import-list {
@@ -758,14 +758,14 @@ dialog::backdrop {
   color: var(--ink);
   font-weight: 700;
   font-size: 0.86rem;
-  text-transform: none;
   text-shadow: none;
+  text-transform: none;
 }
 
 .import-check input {
+  box-shadow: none;
   width: auto;
   min-height: auto;
-  box-shadow: none;
   accent-color: var(--red);
 }
 
@@ -780,9 +780,9 @@ dialog::backdrop {
   bottom: 20px;
   place-items: center;
   z-index: 1000;
+  padding: 0;
   width: 58px;
   height: 58px;
-  padding: 0;
   font-size: 20px;
 }
 

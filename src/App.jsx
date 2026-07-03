@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { deckData } from './data/cards.js'
+import { todayKey, loadState as loadStateHelper, shuffleForToday } from './helpers/helper.js'
 
 const STORAGE_KEY = 'german-srs-state-v2'
 const DAY = 24 * 60 * 60 * 1000
@@ -81,38 +82,16 @@ const importStopwords = new Set([
   'zu',
 ])
 
-function todayKey(offset = 0) {
-  return new Date(Date.now() + offset * DAY).toISOString().slice(0, 10)
-}
-
 function loadState() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
-    return {
-      ...defaultState,
-      ...saved,
-      quotas: { ...defaultState.quotas, ...saved?.quotas },
-    }
-  } catch {
+  const saved = loadStateHelper(STORAGE_KEY, null)
+  if (saved === null) {
     return structuredClone(defaultState)
   }
-}
-
-function seededHash(value) {
-  let hash = 2166136261
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index)
-    hash = Math.imul(hash, 16777619)
+  return {
+    ...defaultState,
+    ...saved,
+    quotas: { ...defaultState.quotas, ...saved?.quotas },
   }
-  return hash >>> 0
-}
-
-function shuffleForToday(cards, context) {
-  return [...cards].sort((a, b) => {
-    const seedA = seededHash(`${todayKey()}|${context}|${a.id}`)
-    const seedB = seededHash(`${todayKey()}|${context}|${b.id}`)
-    return seedA - seedB
-  })
 }
 
 function dateToDays(value) {
@@ -121,6 +100,10 @@ function dateToDays(value) {
 
 function daysToDate(days) {
   return new Date(days * DAY).toISOString().slice(0, 10)
+}
+
+function addDaysToKey(dayKey, offset) {
+  return daysToDate(dateToDays(dayKey) + offset)
 }
 
 function App() {
@@ -139,6 +122,7 @@ function App() {
   const [isTranslating, setIsTranslating] = useState(false)
   const [translationError, setTranslationError] = useState('')
   const [darkMode, setDarkMode] = useState(false)
+  const currentDay = todayKey()
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
@@ -169,14 +153,14 @@ function App() {
   const isNew = (card) => !getReview(card)
   const isDue = (card) => {
     const review = getReview(card)
-    return review && review.due <= todayKey()
+    return review && review.due <= currentDay
   }
   const learnedTodayCount = (type) =>
     Object.values(state.reviews).filter(
-      (review) => review.type === type && review.learnedOn === todayKey(),
+      (review) => review.type === type && review.learnedOn === currentDay,
     ).length
   const replacementCreditCount = (type) =>
-    state.replacementCredits?.[todayKey()]?.[type] || 0
+    state.replacementCredits?.[currentDay]?.[type] || 0
 
   const filteredCards = useMemo(
     () =>
@@ -200,8 +184,7 @@ function App() {
     const newCards = filteredCards.filter(isNew)
     const customFresh = newCards.filter((card) => card.source === 'Custom' || card.tags?.includes('custom'))
     const generatedFresh = shuffleForToday(
-      newCards.filter((card) => card.source !== 'Custom' && !card.tags?.includes('custom')),
-      `${state.selectedType}|${state.selectedLevel}`,
+      newCards.filter((card) => card.source !== 'Custom' && !card.tags?.includes('custom'))
     )
     const fresh = [...customFresh, ...generatedFresh].slice(0, remainingNew)
     const future = filteredCards
@@ -256,7 +239,7 @@ function App() {
   const streak = (() => {
     let count = 0
     for (let offset = 0; offset > -365; offset -= 1) {
-      if (!state.history[todayKey(offset)]?.reviews) break
+      if (!state.history[addDaysToKey(currentDay, offset)]?.reviews) break
       count += 1
     }
     return count
@@ -288,7 +271,7 @@ function App() {
       lapses: 0,
       interval: 0,
       ease: 2.5,
-      learnedOn: todayKey(),
+      learnedOn: currentDay,
     }
     const next = { ...previous, type: currentCard.type, level: currentCard.level, lastRating: rating }
     const interval = Math.max(0, previous.interval)
@@ -297,35 +280,35 @@ function App() {
       next.interval = 0
       next.ease = Math.max(1.3, previous.ease - 0.25)
       next.lapses = previous.lapses + 1
-      next.due = todayKey()
+      next.due = currentDay
     }
     if (rating === 'hard') {
       next.interval = Math.max(1, Math.ceil(interval * 1.25 || 1))
       next.ease = Math.max(1.3, previous.ease - 0.15)
-      next.due = daysToDate(dateToDays(todayKey()) + next.interval)
+      next.due = addDaysToKey(currentDay, next.interval)
     }
     if (rating === 'good') {
       next.interval = previous.reps === 0 ? 1 : Math.max(2, Math.ceil(interval * previous.ease))
       next.ease = previous.ease
-      next.due = daysToDate(dateToDays(todayKey()) + next.interval)
+      next.due = addDaysToKey(currentDay, next.interval)
     }
     if (rating === 'easy') {
       next.interval = previous.reps === 0 ? 4 : Math.max(4, Math.ceil(interval * (previous.ease + 0.45)))
       next.ease = Math.min(3.2, previous.ease + 0.15)
-      next.due = daysToDate(dateToDays(todayKey()) + next.interval)
+      next.due = addDaysToKey(currentDay, next.interval)
     }
 
     next.reps = previous.reps + 1
-    next.lastReviewed = todayKey()
-    next.learnedOn = previous.learnedOn || todayKey()
+    next.lastReviewed = currentDay
+    next.learnedOn = previous.learnedOn || currentDay
 
     setState((current) => {
       const history = {
         ...current.history,
-        [todayKey()]: {
-          reviews: (current.history[todayKey()]?.reviews || 0) + 1,
+        [currentDay]: {
+          reviews: (current.history[currentDay]?.reviews || 0) + 1,
           learned:
-            (current.history[todayKey()]?.learned || 0) +
+            (current.history[currentDay]?.learned || 0) +
             (previous.reps === 0 && rating !== 'again' ? 1 : 0),
         },
       }
@@ -347,9 +330,9 @@ function App() {
       delete reviews[currentCard.id]
       const replacementCredits = { ...(current.replacementCredits || {}) }
       if (shouldAddReplacement) {
-        replacementCredits[todayKey()] = {
-          ...(replacementCredits[todayKey()] || {}),
-          [currentCard.type]: (replacementCredits[todayKey()]?.[currentCard.type] || 0) + 1,
+        replacementCredits[currentDay] = {
+          ...(replacementCredits[currentDay] || {}),
+          [currentCard.type]: (replacementCredits[currentDay]?.[currentCard.type] || 0) + 1,
         }
       }
       return {
@@ -358,7 +341,7 @@ function App() {
         deletedCards: {
           ...(current.deletedCards || {}),
           [currentCard.id]: {
-            deletedOn: todayKey(),
+            deletedOn: currentDay,
             type: currentCard.type,
             level: currentCard.level,
             front: currentCard.front,
@@ -619,7 +602,7 @@ function App() {
           <h1>Spaced repetition from your books</h1>
         </div>
         <div className="today-panel">
-          <span>{todayKey()}</span>
+          <span>{currentDay}</span>
           <strong>{dueCount} due</strong>
         </div>
       </header>
