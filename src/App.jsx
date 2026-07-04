@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import './App.css'
 import { deckData } from './data/cards.js'
 import { todayKey, loadState as loadStateHelper, shuffleForToday } from './helpers/helper.js'
 
