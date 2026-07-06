@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import './App.css'
 import { CardEditorDialog } from './components/CardEditorDialog.jsx'
-import { DarkModeToggle } from './components/DarkModeToggle.jsx'
+import { FloatingControls } from './components/FloatingControls.jsx'
 import { Header } from './components/Header.jsx'
 import { ImportDialog } from './components/ImportDialog.jsx'
-import { Sidebar } from './components/Sidebar.jsx'
+import { ProgressBadges } from './components/ProgressBadges.jsx'
+import { SettingsDialog } from './components/SettingsDialog.jsx'
 import { SourceDialog } from './components/SourceDialog.jsx'
-import { StatsGrid } from './components/StatsGrid.jsx'
 import { StudyPanel } from './components/StudyPanel.jsx'
 import { labels } from './constants/appConstants.js'
 import { deckData } from './data/cards.js'
@@ -20,6 +20,7 @@ import { useStudyActions } from './hooks/useStudyActions.js'
 function App() {
   const [state, setState] = usePersistedState()
   const [sourceOpen, setSourceOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingFocusCardId, setPendingFocusCardId] = useState(null)
   const { darkMode, toggleDarkMode } = useDarkMode()
   const {
@@ -96,30 +97,14 @@ function App() {
     <main className="app-shell">
       <Header currentDay={currentDay} dueCount={dueCount} />
 
-      <StatsGrid
-        cardsByType={cardsByType}
+      <ProgressBadges
         learnedTodayCount={learnedTodayCount}
         masteredCount={masteredCount}
         quotas={state.quotas}
         streak={streak}
       />
 
-      <section className="workspace">
-        <Sidebar
-          changeLevel={changeLevel}
-          changeQuota={changeQuota}
-          changeType={changeType}
-          generatedAt={deckData.generatedAt}
-          labels={labels}
-          onImportOpen={() => setImportOpen(true)}
-          onSourceOpen={() => setSourceOpen(true)}
-          quotas={state.quotas}
-          selectedLevel={state.selectedLevel}
-          selectedType={state.selectedType}
-          sourceCount={deckData.sources.length}
-          totalCards={deckData.summary.total}
-        />
-
+      <div className="study-center">
         <StudyPanel
           currentCard={currentCard}
           currentIndex={currentIndex}
@@ -139,9 +124,34 @@ function App() {
           setShowingAnswer={setShowingAnswer}
           showingAnswer={showingAnswer}
         />
-      </section>
+      </div>
 
       {sourceOpen && <SourceDialog onClose={() => setSourceOpen(false)} sources={deckData.sources} />}
+
+      {settingsOpen && (
+        <SettingsDialog
+          changeLevel={changeLevel}
+          changeQuota={changeQuota}
+          changeType={changeType}
+          generatedAt={deckData.generatedAt}
+          labels={labels}
+          onClose={() => setSettingsOpen(false)}
+          onImportOpen={() => {
+            setSettingsOpen(false)
+            setImportOpen(true)
+          }}
+          onSourceOpen={() => {
+            setSettingsOpen(false)
+            setSourceOpen(true)
+          }}
+          open={settingsOpen}
+          quotas={state.quotas}
+          selectedLevel={state.selectedLevel}
+          selectedType={state.selectedType}
+          sourceCount={deckData.sources.length}
+          totalCards={deckData.summary.total}
+        />
+      )}
 
       {editorOpen && (
         <CardEditorDialog
@@ -168,7 +178,12 @@ function App() {
         />
       )}
 
-      <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <FloatingControls
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+        settingsOpen={settingsOpen}
+        onSettingsToggle={() => setSettingsOpen((open) => !open)}
+      />
     </main>
   )
 }
