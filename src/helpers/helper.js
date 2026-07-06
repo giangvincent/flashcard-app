@@ -1,5 +1,7 @@
 // src/helpers/helper.js
 
+const DAY = 24 * 60 * 60 * 1000;
+
 /**
  * Returns a string representation of today's date in the format YYYY-MM-DD.
  * Uses UTC to avoid timezone‑related inconsistencies in tests.
@@ -83,4 +85,16 @@ export function shuffleForToday(array) {
   }
 
   return result;
+}
+
+export function dateToDays(value) {
+  return Math.floor(new Date(value).getTime() / DAY);
+}
+
+export function daysToDate(days) {
+  return new Date(days * DAY).toISOString().slice(0, 10);
+}
+
+export function addDaysToKey(dayKey, offset) {
+  return daysToDate(dateToDays(dayKey) + offset);
 }

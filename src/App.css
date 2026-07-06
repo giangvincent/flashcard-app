@@ -572,10 +572,31 @@ textarea {
 }
 
 .review-actions {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   padding: 16px 18px 0;
+  max-width: fit-content;
+  margin: 0 auto;
+}
+
+.review-actions button {
+  flex: 1 1 calc(25% - 10px);
+  max-width: calc(25% - 10px);
+}
+
+@media (max-width: 900px) {
+  .review-actions button {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .review-actions button {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 .review-actions [data-rating="hard"] {
@@ -606,10 +627,29 @@ textarea {
 }
 
 .utility-actions {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   padding: 12px 18px 18px;
+}
+
+.utility-actions button {
+  flex: 1 1 calc(20% - 10px);
+  max-width: calc(20% - 10px);
+}
+
+@media (max-width: 900px) {
+  .utility-actions button {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .utility-actions button {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 .utility-actions .danger-action {

@@ -9,7 +9,15 @@
  * The tests focus on expected behaviour, not implementation details.
  */
 
-import { todayKey, loadState, seededHash, shuffleForToday } from './helper';
+import {
+  addDaysToKey,
+  dateToDays,
+  daysToDate,
+  todayKey,
+  loadState,
+  seededHash,
+  shuffleForToday,
+} from './helper';
 import { vi, describe, it, beforeAll, afterAll, beforeEach, expect } from 'vitest';
 import { mockLocalStorage } from '../test-utils';
 
@@ -111,6 +119,23 @@ describe('Helper module', () => {
       const hash = seededHash(input, 'seed');
       // Accept both number and numeric string representations
       expect(typeof hash === 'number' || /^\d+$/.test(hash)).toBe(true);
+    });
+  });
+
+  /* -------------------------------------------------
+   * date helpers
+   * ------------------------------------------------- */
+  describe('date helpers', () => {
+    it('dateToDays should convert a day key to a day number', () => {
+      expect(dateToDays('1970-01-02')).toBe(1);
+    });
+
+    it('daysToDate should convert a day number back to a day key', () => {
+      expect(daysToDate(1)).toBe('1970-01-02');
+    });
+
+    it('addDaysToKey should add an offset to a day key', () => {
+      expect(addDaysToKey('2022-03-15', 3)).toBe('2022-03-18');
     });
   });
 
