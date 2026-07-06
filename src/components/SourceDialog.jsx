@@ -1,6 +1,6 @@
 export function SourceDialog({ onClose, sources }) {
   return (
-    <dialog open>
+    <dialog open aria-label="Sources" aria-modal="true" onClose={onClose}>
       <div className="dialog-head">
         <h2>Source coverage</h2>
         <button type="button" aria-label="Close" onClick={onClose}>

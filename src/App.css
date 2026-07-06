@@ -172,7 +172,6 @@ h2 {
 }
 
 .pixel-panel,
-.today-panel,
 .study-panel,
 dialog,
 .source-list article,
@@ -199,7 +198,6 @@ dialog,
   background: var(--surface);
 }
 
-.dark-mode .today-panel,
 .dark-mode .study-panel,
 .dark-mode dialog,
 .dark-mode .source-list article,
@@ -212,9 +210,18 @@ dialog,
 }
 
 .today-panel {
-  padding: 16px;
-  min-width: 176px;
-  text-align: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
+  background: rgb(255 248 242 / 0.06);
+  padding: 4px 10px 4px 8px;
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .today-panel span,
@@ -230,18 +237,13 @@ dialog,
 }
 
 .today-panel strong {
-  display: block;
   color: var(--ink);
-  text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a;
+  font-weight: 800;
+  font-size: 0.8rem;
 }
 
-.dark-mode .today-panel strong {
-  text-shadow: none;
-}
-
-.today-panel strong {
-  margin-top: 4px;
-  font-size: 1.25rem;
+.dark-mode .today-panel {
+  background: rgb(21 16 20 / 0.07);
 }
 
 /* Progress badges — compact pill row */
@@ -261,10 +263,10 @@ dialog,
   background: rgb(255 248 242 / 0.06);
   padding: 4px 10px 4px 8px;
   color: var(--muted);
-  font-size: 0.8rem;
   font-weight: 800;
-  text-transform: uppercase;
+  font-size: 0.8rem;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .dark-mode .badge-pill {
@@ -282,8 +284,8 @@ dialog,
 
 /* Study panel — centered, no sidebar */
 .study-center {
-  max-width: 820px;
   margin: 0 auto;
+  max-width: 820px;
 }
 
 .control-group + .control-group {
@@ -419,8 +421,7 @@ textarea {
   line-height: 1.4;
 }
 
-.source-box button,
-.utility-actions button {
+.source-box button {
   width: 100%;
 }
 
@@ -584,27 +585,7 @@ textarea {
   flex-wrap: wrap;
   gap: 10px;
   margin: 0 auto;
-  padding: 16px 18px 0;
-  max-width: fit-content;
-}
-
-.review-actions button {
-  flex: 1 1 calc(25% - 10px);
-  max-width: calc(25% - 10px);
-}
-
-@media (max-width: 900px) {
-  .review-actions button {
-    flex: 1 1 calc(50% - 10px);
-    max-width: calc(50% - 10px);
-  }
-}
-
-@media (max-width: 600px) {
-  .review-actions button {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+  padding: 0px 18px 0;
 }
 
 .review-actions [data-rating="hard"] {
@@ -637,27 +618,10 @@ textarea {
 .utility-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   padding: 12px 18px 18px;
-}
-
-.utility-actions button {
-  flex: 1 1 calc(20% - 10px);
-  max-width: calc(20% - 10px);
-}
-
-@media (max-width: 900px) {
-  .utility-actions button {
-    flex: 1 1 calc(50% - 10px);
-    max-width: calc(50% - 10px);
-  }
-}
-
-@media (max-width: 600px) {
-  .utility-actions button {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+  width: auto;
 }
 
 .utility-actions .danger-action {
@@ -665,14 +629,44 @@ textarea {
 }
 
 dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1100;
+  border: 0;
+  border-radius: 0;
   padding: 0;
   width: min(760px, calc(100% - 24px));
+  max-height: 85vh;
+  overflow: auto;
   color: var(--ink);
 }
 
 dialog::backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1099;
   backdrop-filter: blur(3px);
   background: var(--backdrop);
+}
+
+dialog[open] {
+  animation: dialogFadeIn 0.15s ease-out;
+}
+
+@keyframes dialogFadeIn {
+  from {
+    transform: translate(-50%, -48%) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .dialog-head {
@@ -824,10 +818,10 @@ dialog::backdrop {
 /* Floating controls cluster (settings + dark mode) */
 .floating-controls {
   display: flex;
-  flex-direction: column;
   position: fixed;
   right: 20px;
   bottom: 20px;
+  flex-direction: column;
   gap: 10px;
   z-index: 1000;
 }
@@ -844,8 +838,8 @@ dialog::backdrop {
 /* Settings dialog body */
 .settings-body {
   padding: 18px;
-  overflow-y: auto;
   max-height: 72vh;
+  overflow-y: auto;
 }
 
 @media (max-width: 860px) {
@@ -860,9 +854,7 @@ dialog::backdrop {
     align-items: stretch;
   }
 
-  .today-panel {
-    text-align: left;
-  }
+
 
   .review-actions,
   .utility-actions,
