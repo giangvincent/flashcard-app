@@ -312,6 +312,7 @@ label {
 .dialog-head button,
 .editor-actions button,
 .import-toolbar button,
+.completion-actions button,
 .floating-btn {
   position: relative;
   clip-path: polygon(10px 0, calc(100% - 10px) 0, calc(100% - 10px) 5px, calc(100% - 5px) 5px, calc(100% - 5px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 5px) calc(100% - 10px), calc(100% - 5px) calc(100% - 5px), calc(100% - 10px) calc(100% - 5px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 5px), 5px calc(100% - 5px), 5px calc(100% - 10px), 0 calc(100% - 10px), 0 10px, 5px 10px, 5px 5px, 10px 5px);
@@ -337,6 +338,7 @@ label {
 .dialog-head button:hover,
 .editor-actions button:hover,
 .import-toolbar button:hover,
+.completion-actions button:hover,
 .floating-btn:hover,
 .segmented button:focus-visible,
 .review-actions button:focus-visible,
@@ -345,6 +347,7 @@ label {
 .dialog-head button:focus-visible,
 .editor-actions button:focus-visible,
 .import-toolbar button:focus-visible,
+.completion-actions button:focus-visible,
 .floating-btn:focus-visible {
   transform: translateY(-3px);
   outline: none;
@@ -364,6 +367,7 @@ label {
 .dialog-head button:active,
 .editor-actions button:active,
 .import-toolbar button:active,
+.completion-actions button:active,
 .floating-btn:active {
   transform: translateY(4px);
   box-shadow:
@@ -840,6 +844,82 @@ dialog[open] {
   padding: 18px;
   max-height: 72vh;
   overflow-y: auto;
+}
+
+/* Completion dialog — end of session report */
+.completion-body {
+  padding: 18px;
+  display: grid;
+  gap: 20px;
+}
+
+.completion-report {
+  display: grid;
+  gap: 16px;
+}
+
+.completion-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .completion-stats {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+}
+
+.completion-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
+  background: rgb(255 248 242 / 0.06);
+  padding: 10px;
+}
+
+.dark-mode .completion-stat {
+  background: rgb(21 16 20 / 0.07);
+}
+
+.completion-stat-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.completion-stat-value {
+  color: var(--ink);
+  font-size: 1.6rem;
+  font-weight: 900;
+  text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a;
+}
+
+.dark-mode .completion-stat-value {
+  text-shadow: none;
+}
+
+.completion-message {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.completion-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border-top: 2px solid var(--line);
+  padding-top: 18px;
+}
+
+.completion-actions .primary-action {
+  background: #d45c68;
 }
 
 @media (max-width: 860px) {

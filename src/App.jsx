@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { CardEditorDialog } from './components/CardEditorDialog.jsx'
+import { CompletionDialog } from './components/CompletionDialog.jsx'
 import { FloatingControls } from './components/FloatingControls.jsx'
 import { Header } from './components/Header.jsx'
 import { ImportDialog } from './components/ImportDialog.jsx'
@@ -22,6 +23,7 @@ function App() {
   const [sourceOpen, setSourceOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [pendingFocusCardId, setPendingFocusCardId] = useState(null)
+  const [completionDismissed, setCompletionDismissed] = useState(false)
   const { darkMode, toggleDarkMode } = useDarkMode()
   const {
     allCards,
@@ -38,13 +40,17 @@ function App() {
     getReview,
     isDue,
     isNew,
+    isSessionComplete,
     learnedTodayCount,
     masteredCount,
     queue,
+    sessionStats,
     setCurrentIndex,
     setShowingAnswer,
     showingAnswer,
     streak,
+    continueSession,
+    stopSession,
   } = useCardQueue({ state, setState, pendingFocusCardId, setPendingFocusCardId })
   const {
     editorDraft,
@@ -92,6 +98,11 @@ function App() {
     setShowingAnswer,
     setState,
   })
+
+  // Reset completion dismissed state when type, level, or day changes
+  useEffect(() => {
+    setCompletionDismissed(false)
+  }, [state.selectedType, state.selectedLevel, currentDay])
 
   return (
     <main className="app-shell">
@@ -175,6 +186,24 @@ function App() {
           setImportText={setImportText}
           translationError={translationError}
           updateImportRow={updateImportRow}
+        />
+      )}
+
+      {isSessionComplete && !completionDismissed && !settingsOpen && !editorOpen && !importOpen && (
+        <CompletionDialog
+          sessionStats={sessionStats}
+          onContinue={() => {
+            continueSession()
+            setCompletionDismissed(false)
+          }}
+          onStop={() => {
+            stopSession()
+            setCompletionDismissed(true)
+          }}
+          onClose={() => {
+            stopSession()
+            setCompletionDismissed(true)
+          }}
         />
       )}
 

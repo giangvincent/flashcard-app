@@ -18,6 +18,8 @@ export const defaultState = {
   replacementCredits: {},
   editedCards: {},
   customCards: {},
+  reviewedTodayIds: {},
+  continueSession: null,
 }
 
 export const emptyEditor = {

@@ -25,19 +25,28 @@ export function useStudyActions({
       currentDay,
     )
 
-    setState((current) => ({
-      ...current,
-      reviews: { ...current.reviews, [currentCard.id]: next },
-      history: {
-        ...current.history,
-        [currentDay]: {
-          reviews: (current.history[currentDay]?.reviews || 0) + 1,
-          learned:
-            (current.history[currentDay]?.learned || 0) +
-            (previous.reps === 0 && rating !== 'again' ? 1 : 0),
+    setState((current) => {
+      const todayReviewed = current.reviewedTodayIds?.[currentDay] || []
+      return {
+        ...current,
+        reviews: { ...current.reviews, [currentCard.id]: next },
+        history: {
+          ...current.history,
+          [currentDay]: {
+            reviews: (current.history[currentDay]?.reviews || 0) + 1,
+            learned:
+              (current.history[currentDay]?.learned || 0) +
+              (previous.reps === 0 && rating !== 'again' ? 1 : 0),
+          },
         },
-      },
-    }))
+        reviewedTodayIds: {
+          ...current.reviewedTodayIds,
+          [currentDay]: todayReviewed.includes(currentCard.id)
+            ? todayReviewed
+            : [...todayReviewed, currentCard.id],
+        },
+      }
+    })
     setShowingAnswer(false)
     setCurrentIndex((index) => index + 1)
   }

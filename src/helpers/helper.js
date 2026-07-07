@@ -87,6 +87,26 @@ export function shuffleForToday(array) {
   return result;
 }
 
+/**
+ * Returns a new array containing the elements of `array` shuffled randomly
+ * using Math.random() (non-deterministic). Used for continuation rounds
+ * where a fresh, non-repeatable order is desired.
+ *
+ * @template T
+ * @param {T[]} array - The array to shuffle.
+ * @returns {T[]} A new shuffled array (original array is untouched).
+ */
+export function shuffleRandom(array) {
+  if (!Array.isArray(array) || array.length === 0) return [];
+
+  const result = array.slice();
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export function dateToDays(value) {
   return Math.floor(new Date(value).getTime() / DAY);
 }
