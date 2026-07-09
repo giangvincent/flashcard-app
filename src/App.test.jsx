@@ -46,7 +46,7 @@ describe('App helper integration', () => {
 
     const html = renderToString(<App />)
 
-    expect(html).toContain('1 days')
-    expect(html).not.toContain('365 days')
+    expect(html).toContain('1d')
+    expect(html).not.toContain('365')
   })
 })
