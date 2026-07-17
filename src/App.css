@@ -474,8 +474,10 @@ textarea {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition:
-    transform 560ms steps(4, end),
-    filter 240ms steps(1, end);
+    transform 560ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 240ms ease-out;
+
+  will-change: transform;
 }
 
 .flashcard.is-answer .card-inner {
@@ -547,7 +549,6 @@ textarea {
     0 -3px #6c222b,
     0 8px 0 #381218,
     0 0 18px var(--red-glow);
-  text-transform: uppercase;
   overflow-wrap: anywhere;
 }
 
@@ -848,9 +849,9 @@ dialog[open] {
 
 /* Completion dialog — end of session report */
 .completion-body {
-  padding: 18px;
   display: grid;
   gap: 20px;
+  padding: 18px;
 }
 
 .completion-report {
@@ -886,16 +887,16 @@ dialog[open] {
 
 .completion-stat-label {
   color: var(--muted);
-  font-size: 0.72rem;
   font-weight: 800;
-  text-transform: uppercase;
+  font-size: 0.72rem;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .completion-stat-value {
   color: var(--ink);
-  font-size: 1.6rem;
   font-weight: 900;
+  font-size: 1.6rem;
   text-shadow: 2px 0 #69242a, -2px 0 #69242a, 0 2px #69242a;
 }
 
